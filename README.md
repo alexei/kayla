@@ -1,4 +1,4 @@
-kayla
+Kayla
 =====
 
 McKayla is not impressed
@@ -11,7 +11,7 @@ Well, McKayla is not impressed!
 
 What?
 ----
-I've developed a simple library to track time spent on actually **reading articles**, **listening to music**, and **watching videos** online.
+Kayla is a simple library that helps you track time spent on actually **reading articles**, **listening to music**, and **watching videos** online.
 
 How?
 ----
