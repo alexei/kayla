@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <!-- this is a comment -->
+    <article data-label="Alice speaks to Cheshire Cat">
+        <h1>Alice speaks to Cheshire Cat</h1>
+        <p>The Cat only grinned when it saw Alice. It looked good-natured, she thought: still it had very long claws and a great many teeth, so she felt that it ought to be treated with respect.</p>
+        <p>&quot;Cheshire Puss,&quot; she began, rather timidly, as she did not at all know whether it would like the name: however, it only grinned a little wider. &quot;Come, it's pleased so far,&quot; thought Alice, and she went on. &quot;Would you tell me, please, which way I ought to go from here?&quot;</p>
+        <p>&quot;That depends a good deal on where you want to get to,&quot; said the Cat.</p>
+        <p>&quot;I don't much care where&mdash;&quot; said Alice.</p>
+        <p>&quot;Then it doesn't matter which way you go,&quot; said the Cat.</p>
+        <p>&quot;&mdash;so long as I get somewhere,&quot; Alice added as an explanation.</p>
+        <p>&quot;Oh, you're sure to do that,&quot; said the Cat, &quot;if you only walk long enough.&quot;</p>
+        <p>Alice felt that this could not be denied, so she tried another question. &quot;What sort of people live about here?&quot;</p>
+        <p>&quot;In that direction,&quot; the Cat said, waving its right paw round, &quot;lives a Hatter: and in that direction,&quot; waving the other paw, &quot;lives a March Hare. Visit either you like: they're both mad.&quot;</p>
+        <p>&quot;But I don't want to go among mad people,&quot; Alice remarked.</p>
+        <p>&quot;Oh, you can't help that,&quot; said the Cat: &quot;we're all mad here. I'm mad. You're mad.&quot;</p>
+        <p>&quot;How do you know I'm mad?&quot; said Alice.</p>
+        <p>&quot;You must be,&quot; said the Cat, &quot;or you wouldn't have come here.&quot;</p>
+    </article>
+
+    <audio controls data-label="Sample audio file">
+        <source src="media/sample.ogv" type="audio/ogg">
+        <source src="media/sample.mp3" type="audio/mp3">
+    </audio>
+
+    <br>
+
+    <video controls data-label="Sample video file">
+        <source src="media/sample.webm" type="video/webm">
+        <source src="media/sample.mp4" type="video/mp4">
+    </video>
+
+    <script src="../src/kayla.js"></script>
+    <script>
+        kayla.util.notify = function() {
+            console.log(arguments)
+        }
+
+        var texts = null,
+            audios = null,
+            videos = null,
+            i = 0
+
+        texts = document.getElementsByTagName("article")
+        for (i = 0; i < texts.length; i++) {
+            kayla.trackText(texts[i], texts[i].dataset.label)
+        }
+
+        audios = document.getElementsByTagName("audio")
+        for (i = 0; i < audios.length; i++) {
+            kayla.trackAudio(audios[i], audios[i].dataset.label)
+        }
+
+        videos = document.getElementsByTagName("video")
+        for (i = 0; i < videos.length; i++) {
+            kayla.trackVideo(videos[i], videos[i].dataset.label)
+        }
+    </script>
+</body>
+</html>
