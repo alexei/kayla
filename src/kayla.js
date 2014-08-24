@@ -8,11 +8,11 @@
     /**
      * timing functions
      */
-    kayla.trackText = function kayla_track_text(tree, label) {
+    kayla.trackText = function kayla_track_text(node, label) {
         var words_count = 0,
             time_to = 0,
             goals = {}
-        kayla.util.walk(tree, function(node) {
+        kayla.util.walk(node, function(node) {
             if (node.nodeType === 3 && node.nodeValue) {
                 words_count += node.nodeValue.trim().split(/\s+/g).length
             }
@@ -29,46 +29,31 @@
         })
     }
 
-    kayla.trackAudio = function kayla_track_audio(tree, label) {
-        var time_to = 0,
-            goals = {}
-        kayla.util.walk(tree, function(node) {
-            if (node.nodeName.toLowerCase() === "audio") {
-                node.addEventListener("loadedmetadata", function() {
-                    time_to = node.duration * 1000
-                    goals = kayla.util.goals(time_to)
-                    Object.keys(goals).map(function(goal) {
-                        setTimeout(
-                            function() {
-                                kayla.util.notify(kayla.category, "listen", goal, label)
-                            },
-                            goals[goal]
-                        )
-                    })
-                })
-            }
-        })
+    kayla.trackAudio = function kayla_track_audio(node, label) {
+        kayla._trackMedia(node, "audio", "listen", label)
     }
 
-    kayla.trackVideo = function kayla_track_video(tree, label) {
-        var time_to = 0,
-            goals = {}
-        kayla.util.walk(tree, function(node) {
-            if (node.nodeName.toLowerCase() === "video") {
-                node.addEventListener("loadedmetadata", function() {
-                    time_to = node.duration * 1000
-                    goals = kayla.util.goals(time_to)
-                    Object.keys(goals).map(function(goal) {
-                        setTimeout(
-                            function() {
-                                kayla.util.notify(kayla.category, "watch", goal, label)
-                            },
-                            goals[goal]
-                        )
-                    })
+    kayla.trackVideo = function kayla_track_video(node, label) {
+        kayla._trackMedia(node, "video", "watch", label)
+    }
+
+    kayla._trackMedia = function kayla_track_media(node, tag, variable, label) {
+        if (node.nodeName.toLowerCase() === tag) {
+            var time_to = 0,
+                goals = {}
+            node.addEventListener("loadedmetadata", function() {
+                time_to = node.duration * 1000
+                goals = kayla.util.goals(time_to)
+            })
+            node.addEventListener("timeupdate", function() {
+                Object.keys(goals).map(function(goal) {
+                    if (node.currentTime * 1000 >= goals[goal]) {
+                        delete goals[goal]
+                        kayla.util.notify(kayla.category, variable, goal, label)
+                    }
                 })
-            }
-        })
+            })
+        }
     }
 
     /**
